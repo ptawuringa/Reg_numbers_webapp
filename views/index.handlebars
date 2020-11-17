@@ -1,39 +1,38 @@
-
-<form action="/" method="post">
 <div class="container">
+	<div>
+		<h1>Registration numbers</h1>
+
+		<div class="regNumbers">
+			<!-- <i>Reg numbers to be added here...</i> -->
+			eg
+			CY 123,
+			CJ 124 236,
+			CA 125-458
+
+		</div>
+
+		<div class="message">
+
+		</div>
+
+
 		<div>
-			<h1>Registration numbers</h1>
+			<form action="/regNumbers" method="post">
+				<input type="text" name="regNumber" id="mike" class="regNumberEntered" placeholder="enter a registration number">
+				<button type="submit" class="addRegNumber btn blue">Add reg number</button>
+			</form>
+		</div>
 
-			<div class="message">
-
-			</div>
-
-
-			<div>
-				<input type="text" class="regNumberEntered" placeholder="enter a registration number">
-				<button class="addRegNumber btn blue">Add reg number</button>
-			</div>
-
-			<div class="filter">
-				<strong>Filter by town</strong>
-            <div>class="filterTown
+		<div class="filter">
+			<strong>Filter by town</strong>
+			<div class="filterTown">
 				<input type="radio" name="town" class value="">Show all
 				<input type="radio" name="town" value="CY">Bellville
 				<input type="radio" name="town" value="CJ">Paarl
 				<input type="radio" name="town" value="CA"> Cape Town
-            </div>
-			</div>
-			<hr>
-			<div class="regNumbers">
-				<!-- <i>Reg numbers to be added here...</i> -->
-				CY 123,
-				CJ 124,
-				CA 125,
-
-				
 			</div>
 		</div>
-	</div>
+		<hr>
 
-    
-</form>
+	</div>
+</div>
