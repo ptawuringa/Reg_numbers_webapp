@@ -13,14 +13,31 @@
 
 		<div class="message">
 
+            <h3>
+                {{messages.info}}
+
+            </h3>
+        
+
 		</div>
+
+
 
 
 		<div>
 			<form action="/regNumbers" method="post">
 				<input type="text" name="regNumber" id="mike" class="regNumberEntered" placeholder="enter a registration number">
 				<button type="submit" class="addRegNumber btn blue">Add reg number</button>
-			</form>
+			
+       
+        <h3>
+            <div class="display"> 
+                {{regNumberEntered}}
+
+            </div> 
+        </h3>
+
+
 		</div>
 
 		<div class="filter">
@@ -36,3 +53,4 @@
 
 	</div>
 </div>
+</form>

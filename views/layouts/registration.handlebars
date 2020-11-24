@@ -1,10 +1,13 @@
 <center><h1>Registration</h1></center>
 
-{{#each regNumber}}
+{{#each reg_number}}
 <center>
     <h3>
-        <li><a href="/index/{{{this.number}}}">{{{this.number}}}</a></li></h3>
+        <ul>
+        <li><a href="/index/{{{this.message}}}">{{{this.message}}}</a></li></h3>
+        </ul>
+
     </h3>
 </center>
 
-{{/each}}
+{{//each}}

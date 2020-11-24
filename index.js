@@ -10,11 +10,10 @@ const exphbs = require('express-handlebars');
 const pg = require("pg");
 const Pool = pg.Pool;
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://taruwinga:numbers1@localhost:5432/reg_numbers';
+const connectionString = process.env.DATABASE_URL || 'postgresql://patience:pg123@localhost:5432/reg_numbers';
 
 const pool = new Pool({
   connectionString,
-
 });
 
 // parse application/x-www-form-urlencoded
@@ -36,6 +35,7 @@ app.use(flash());
 
 app.engine('handlebars', exphbs({ layoutsDir: "./views/layouts/" }));
 app.set('view engine', 'handlebars');
+app.use(express.static('public'));
 
 
 app.get("/", function (req, res) {
@@ -47,33 +47,54 @@ app.get('/addFlash', function (req, res) {
   res.redirect('/');
 });
 
-app.use(express.static('public'));
 
-app.get('/registration/:regType', function (req, res) {
-  
+app.get('/registration/:regType',  async function (req, res) {
+  var regType = req.body.regNumber
+  await regType.selectPlate(regType)
 
-  res.render('reg', {
-    regType,
-    reg
+  res.render('', {
+   
 
   })
 
 });
 
 
+
+
 app.post('/regNumbers', async function (req, res) {
 
   var reg = req.body.regNumber
+
   await regX.addPlate(reg)
 
-
-  // console.log(reg)
-
-
+  
+var regNumberEntered = await regX.getData();
 
 
+    if (reg === "") {
 
-  res.render("index");
+        req.flash('info', 'ERROR, Please enter your plate');
+
+    } else if (regX === undefined) {
+        req.flash('info', 'ERROR,Please select your town');
+    } else if(!(/[a-zA-Z]/.test(reg))){
+        req.flash('info', 'Enter proper number plate')
+    }else{
+
+    //     // await regX.selectAndUpdate(reg);
+    //     //  msg = await select.Town(regX)
+
+
+    }
+
+
+
+  res.render("index",{
+    regNumberEntered
+  });
+
+  
 });
 
 
