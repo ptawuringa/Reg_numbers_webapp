@@ -15,8 +15,11 @@ module.exports = function regNumbers(pool) {
    }
 
    async function insertData(insertReg) {
-      var insert = await pool.query('insert into registration_numbers (reg_number)values($1)',[insertReg]);
-      return insert.rows;
+      console.log(insertReg);
+      let input = insertReg.split(" ");
+      let code = await getTownId(input[0])    
+      await pool.query('insert into registration_numbers (reg_number, town_id) values ($1,$2)',[insertReg,code]);
+      return true;
    }
 
    async function getData(){

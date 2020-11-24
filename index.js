@@ -38,8 +38,9 @@ app.set('view engine', 'handlebars');
 app.use(express.static('public'));
 
 
-app.get("/", function (req, res) {
-  res.render("index");
+app.get("/", async function (req, res) {
+  var data = await regX.getData();
+  res.render("index",{regs: data});
 });
 
 app.get('/addFlash', function (req, res) {
@@ -48,12 +49,12 @@ app.get('/addFlash', function (req, res) {
 });
 
 
-app.get('/registration/:regType',  async function (req, res) {
+app.get('/registration/:regType', async function (req, res) {
   var regType = req.body.regNumber
   await regType.selectPlate(regType)
 
   res.render('', {
-   
+
 
   })
 
@@ -64,37 +65,28 @@ app.get('/registration/:regType',  async function (req, res) {
 
 app.post('/regNumbers', async function (req, res) {
 
+  console.log("here");
   var reg = req.body.regNumber
 
-  await regX.addPlate(reg)
+  await regX.insertData(reg);
 
+  var data = await regX.getData();
   
-var regNumberEntered = await regX.getData();
+  if (reg === "") {
 
+    req.flash('info', 'ERROR, Please enter your plate');
 
-    if (reg === "") {
+  } else if (regX === undefined) {
+    req.flash('info', 'ERROR,Please select your town');
+  } else if (!(/[a-zA-Z]/.test(reg))) {
+    req.flash('info', 'Enter proper number plate')
+  }
 
-        req.flash('info', 'ERROR, Please enter your plate');
-
-    } else if (regX === undefined) {
-        req.flash('info', 'ERROR,Please select your town');
-    } else if(!(/[a-zA-Z]/.test(reg))){
-        req.flash('info', 'Enter proper number plate')
-    }else{
-
-    //     // await regX.selectAndUpdate(reg);
-    //     //  msg = await select.Town(regX)
-
-
-    }
-
-
-
-  res.render("index",{
-    regNumberEntered
+  res.render("index", {
+    regs:data
   });
 
-  
+
 });
 
 
