@@ -6,7 +6,7 @@ const Pool = pg.Pool;
 
 
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://patience:codex123@localhost:5432/reg_numbers';
+const connectionString = process.env.DATABASE_URL || 'postgresql://patience:pg123@localhost:5432/reg_numbers';
 
 const pool = new Pool({
     connectionString
@@ -16,31 +16,32 @@ const pool = new Pool({
 describe('The basic database web app', function () {
 
     beforeEach(async function () {
-        await pool.query("delete from greet;");
+        await pool.query("delete from registration_numbers;");
 
     });
 
-    describe('addPlate', function () {
-        it('should add unique reg numbers', async function () {
-            const registrationInstance = registration_number(pool)
-    
-            await registrationInstance.addPlate('capetown');
-            let reg = await registrationInstance.getPlate();
-    
-            assert.deepStrictEqual([{ 'reg': 'CA 123 456' }], reg);
-        });
 
-        it('should filter for a town', async function () {
-            const registrationInstance = registration_number(pool)
-    
-            await registrationInstance.getTownId('CA');
-            let code = await registrationInstance.getName();
-    
-            assert.deepStrictEqual([{ 'code': 'CA' }], code);
-        });
-    })
+    it('should add unique reg numbers', async function () {
+        const registrationInstance = registration_number(pool)
 
-    
+        await registrationInstance.addPlate('capetown');
+        let reg = await registrationInstance.getData();
+
+        assert.deepStrictEqual([], reg);
+    });
+
+    it('should filter for a town', async function () {
+        const registrationInstance = registration_number(pool)
+
+
+
+        await registrationInstance.getTownId('CA');
+        let code = await registrationInstance.getTownId();
+
+        assert.deepStrictEqual([{ 'code': 'CA' }], code);
+    });
+
+
 
     it('should give error message for an invalid regNumbers ', async function () {
 
@@ -55,54 +56,54 @@ describe('The basic database web app', function () {
         assert.equal(3, await registrationInstance.all('CA 123'));
     });
 
-    it('should able to count how many name are being entered', async function () {
+    it('should able to count how many registration are being entered', async function () {
 
-        const greetInstance = greet(pool)
+        const registrationInstance = registration_number(pool)
 
-        await greetInstance.selectAndUpdate('Makho')
-        await greetInstance.selectAndUpdate('Salizwa')
-        await greetInstance.selectAndUpdate('Themba')
+        await registrationInstance.selectAndUpdate('CA 123 456')
+        await registrationInstance.selectAndUpdate('CY 123')
+        await registrationInstance.selectAndUpdate('CJ 123 125')
 
 
-        assert.equal(3, await greetInstance.nameCount());
+        assert.equal(3, await registrationInstance.getData());
     });
 
-    it('should able to get username', async function () {
+    it('should able to get registration', async function () {
 
-        const greetInstance = greet(pool)
+        const registrationInstance = registration_number(pool)
 
-        await greetInstance.selectAndUpdate("Tinashe")
-        await greetInstance.selectAndUpdate("Patience")
-        await greetInstance.selectAndUpdate("Makho")
+        await registrationInstance.selectAndUpdate("CA 123 456")
+        await registrationInstance.selectAndUpdate("CY 123")
+        await registrationInstance.selectAndUpdate("CJ 123 125")
 
 
         assert.deepStrictEqual([
             {
-                name: 'Tinashe'
+                reg: 'CA 123 456'
             },
             {
-                name: 'Patience'
+                name: 'CY 123'
             },
             {
-                name: 'Makho'
+                name: 'CJ 123 125'
             }
         ]
-            , await greetInstance.getName());
+            , await registrationInstance.getTownId());
     });
 
 
 
 
-    it('should able to delete a name', async function () {
+    it('should able to delete a registration number', async function () {
 
-        // const greetInstance = greet(pool)
+        const registrationInstance = registration_number(pool)
 
-        // await greetInstance.selectAndUpdate('Makho')
-        // await greetInstance.selectAndUpdate('Patience')
-        // await greetInstance.selectAndUpdate('Makho')
-        // await greetInstance.deleteOne()
+        await registrationInstance.selectAndUpdate('CA 123 456')
+        await registrationInstance.selectAndUpdate('CY 123')
+        await registrationInstance.selectAndUpdate('CJ 123 124')
+        await registrationInstance.deleteOne()
 
-        // assert.deepStrictEqual([], await greetInstance.getName());
+        assert.deepStrictEqual([], await registrationInstance.getSelectedTown());
 
     });
 

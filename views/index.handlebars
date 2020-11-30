@@ -1,7 +1,6 @@
 <div class="container">
 	<div>
 		<h1>Registration numbers</h1>
-
 		<div class="regNumbers">
 			<!-- <i>Reg numbers to be added here...</i> -->
 			eg
@@ -11,13 +10,15 @@
 
 		</div>
 
+
+
 		<div class="message">
 
-            <h3>
-                {{messages.info}}
+			<h3>
+				{{messages.info}}
 
-            </h3>
-        
+			</h3>
+
 
 		</div>
 
@@ -25,36 +26,57 @@
 
 		<div>
 			<form action="/regNumbers" method="post">
-				<input type="text" name="regNumber" id="" class="regNumberEntered" placeholder="enter a registration number">
+				<input type="text" name="regNumber" id="" class="regNumberEntered"
+					placeholder="enter a registration number">
 				<button type="submit" class="addRegNumber btn blue">Add reg number</button>
 			</form>
-       
-        <h3>
-            <div class="display"> 
-                {{regNumberEntered}}
 
-            </div> 
-        </h3>
+			<form action="/filter" method="post">
+				<div class="filter">
+					<strong>Filter by town</strong>
+					<div class="filterTown">
+						<input type="radio" name="town" class value="All">Show all
+						<input type="radio" name="town" value="CY">Bellville
+						<input type="radio" name="town" value="CJ">Paarl
+						<input type="radio" name="town" value="CA"> Cape Town
+					</div>
+					<button type="submit" class="btn">Filter</button>
+					<br>
+				</div>
 
-		<ul>
-			{{#each regs}}
-				<li>{{this.reg_number}}</li>
-			{{/each}}
-		</ul>
+
+			</form>
+
+			<div class="reset">
+    <form action="/reset" method="get">
+
+        <button>Reset</button>
+    </form>
+
+</div>
+
+
+
+			<h3>
+				<div class="display">
+					{{regNumberEntered}}
+			</h3>
+		</div>
+		<div>
+			<ul>
+				{{#each regs}}
+				<p>{{this.reg_number}}</li>
+					{{/each}}
+			</ul>
 
 
 		</div>
 
-		<div class="filter">
-			<strong>Filter by town</strong>
-			<div class="filterTown">
-				<input type="radio" name="town" class value="">Show all
-				<input type="radio" name="town" value="CY">Bellville
-				<input type="radio" name="town" value="CJ">Paarl
-				<input type="radio" name="town" value="CA"> Cape Town
-			</div>
-		</div>
-		<hr>
 
 	</div>
+
+
+	{{!-- <hr> --}}
+
+</div>
 </div>

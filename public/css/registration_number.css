@@ -44,7 +44,18 @@ body {
 	color: crimson;
 }
 
-li {
+.reset{
+	text-align: center;
+	display:block;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	
+  
+  }
+
+li, p {
 
 	background-color: yellow;
 	border: 0.1em solid;

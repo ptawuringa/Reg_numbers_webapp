@@ -17,3 +17,6 @@ create table registration_numbers (
 insert into towns (town_name,code) values('Bellville', 'CY');
 insert into towns (town_name,code) values('Paarl', 'CJ');
 insert into towns (town_name,code) values('Cape Town', 'CA');
+--  !(/C[AYJ] \d{3,5}$/.test(reg)) || (/C[AYJ] \d|-\d+$/.test(reg)
+
+--(!(/[a-zA-Z]/.test(reg)))

@@ -1,7 +1,7 @@
 module.exports = function regNumbers(pool) {
 
    async function addPlate(reg) {
-      var num = reg.substring(0.2);
+      var num = reg.substring(0,2);
       let motor = await pool.query('SELECT id FROM registration_numbers WHERE reg_number = $1', [reg]);
       console.log(motor)
 
@@ -27,10 +27,15 @@ module.exports = function regNumbers(pool) {
       return get.rows;
    }
 
+   async function getSelectedTown(townId){
+      var get = await pool.query('SELECT reg_number FROM registration_numbers WHERE town_id=$1',[townId] );
+      return get.rows;
+   }
+
 
 
    async function selectAndUpdate(code) {
-      var code = names.toUpperCase().charAt(0) + names.slice(1).toLowerCase()
+      var code = code.toUpperCase().charAt(0) + code.slice(1).toLowerCase()
 
       let results = await pool.query('SELECT reg_number FROM registration_numbers WHERE id = $1', [code]);
       if (results.rows.length > 0) {
@@ -41,6 +46,12 @@ module.exports = function regNumbers(pool) {
       }
   }
 
+  async function deleteOne(){
+     let dltOne = await pool.query('delete FROM registration_numbers');
+     console.log(dltOne.rows);
+     return dltOne.rows;
+  }
+
 
 
    return {
@@ -48,7 +59,10 @@ module.exports = function regNumbers(pool) {
       getTownId,
       selectAndUpdate,
       insertData,
-      getData
+      getData,
+      getSelectedTown,
+      deleteOne
+
 
 
    }
